@@ -6,11 +6,18 @@ import {
   MoreHorizontal,
   Search,
 } from 'lucide-react'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { IconButton } from './icon-button'
 import { Table } from './table/table'
 import { TableHeader } from './table/table-header'
 import { TableCell } from './table/table-cell'
 import { TableRow } from './table/table-row'
+import { attendees } from '../data/attendees'
+
+dayjs.extend(relativeTime)
+dayjs.locale('pt-br')
 
 export function AttendeeList() {
   return (
@@ -44,24 +51,26 @@ export function AttendeeList() {
         </thead>
 
         <tbody>
-          {Array.from({ length: 10 }).map((_, i) => {
+          {attendees.map((attendee) => {
             return (
-              <TableRow key={i}>
+              <TableRow key={attendee.id}>
                 <TableCell>
                   <input
                     type="checkbox"
                     className="size-4 rounded border border-white/10 bg-black/20"
                   />
                 </TableCell>
-                <TableCell>12383</TableCell>
+                <TableCell>{attendee.id}</TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-1">
-                    <span className="font-semibold text-white">Kaue Alves</span>
-                    <span>kaue@email.com.br</span>
+                    <span className="font-semibold text-white">
+                      {attendee.name}
+                    </span>
+                    <span>{attendee.email}</span>
                   </div>
                 </TableCell>
-                <TableCell>7 dias atrás</TableCell>
-                <TableCell>3 dias atrás</TableCell>
+                <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
+                <TableCell>{dayjs().to(attendee.checkedInAt)}</TableCell>
                 <TableCell>
                   <IconButton transparent>
                     <MoreHorizontal className="size-4" />
@@ -77,7 +86,7 @@ export function AttendeeList() {
             <TableCell colSpan={3}>Mostrando 10 de 228 itens</TableCell>
             <TableCell className="text-right" colSpan={3}>
               <div className="inline-flex items-center gap-8">
-                <span>Página 1 de 23</span>
+                <span>`Página 1 de 23`</span>
 
                 <div className="flex gap-1.5">
                   <IconButton>
