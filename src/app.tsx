@@ -1,7 +1,9 @@
+import { Header } from './components/header'
+
 export function App() {
   return (
-    <div className="flex gap-2">
-      <h1>Hello</h1>
+    <div className="mx-auto flex max-w-[1216px] flex-col gap-5 py-5">
+      <Header />
     </div>
   )
 }
